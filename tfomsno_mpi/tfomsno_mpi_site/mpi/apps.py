@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class MpiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'mpi'
-    verbose_name = "Сервисы МПИ"
+    verbose_name = "ТФОМС НО МПИ"

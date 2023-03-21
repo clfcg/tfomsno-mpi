@@ -22,3 +22,21 @@ class MpiServices(models.Model):
     class Meta:
         verbose_name = "Сервис МПИ"
         verbose_name_plural = "Сервисы МПИ"
+
+    def __str__(self):
+        return self.service_name
+
+
+class MpiMethods(models.Model):
+    meth_name = models.CharField(max_length=100, verbose_name="Метод МПИ")
+    meth_desc = models.CharField(max_length=1000, verbose_name="Описание")
+    mpi_service = models.ForeignKey(
+        "MpiServices",
+        on_delete=models.PROTECT,
+        verbose_name="Сервис МПИ"
+    )
+    is_active = models.BooleanField(default=False, verbose_name="Активен")
+
+    class Meta:
+        verbose_name = "Метод МПИ"
+        verbose_name_plural = "Методы МПИ"
