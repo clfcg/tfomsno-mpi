@@ -9,6 +9,7 @@ packages = [{include = "tfomsno_mpi"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.1.7"
+psycopg2 = "^2.9.5"
 
 
 [build-system]
