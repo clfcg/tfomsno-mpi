@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header">
+            Данные персоны по ее полису / ДУДЛ
+        </div>
+
+        <form action={% url 'get_person_data' %} method="post">
+            {% csrf_token %}
+            <div class="card mt-2 mb-2 mx-3">
+                <div class="card-header">
+                    Полис ОМС
+                </div>
+
+                <div class="card-body row gx-1 gy-2 align-items-center">
+                    <div class="col-sm-4 form-floating">
+                        {{ form.enp }}
+                        <label for="{{ form.enp.id_for_label }}">ЕНП</label>
+                    </div>
+
+                    <div class="col-sm-1 form-floating">
+                        {{ form.pcyType }}
+                        <label for="{{ form.pcyType.id_for_label }}">Тип полиса</label>
+                    </div>
+
+                    <div class="col-sm-1 form-floating">
+                        {{ form.pcySer }}
+                        <label for="{{ form.pcySer.id_for_label }}">Серия полиса</label>
+                    </div>
+
+                    <div class="col-sm-2 form-floating">
+                        {{ form.pcyNum }}
+                        <label for="{{ form.pcyNum.id_for_label }}">Номер полиса</label>
+                    </div>
+
+                    <div class="col-sm-3 form-floating">
+                        {{ form.tmpcertNum }}
+                        <label for="{{ form.tmpcertNum.id_for_label }}">Временное свидетельство</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-2 mb-2 mx-3">
+                <div class="card-header">
+                    Документ удостоверяющий личность
+                </div>
+                <div class="card-body row gx-1 gy-2 align-items-center">
+                    <div class="col-sm-2 form-floating">
+                        {{ form.dudlSer }}
+                        <label for="{{ form.dudlSer.id_for_label }}">Серия документа</label>
+                    </div>
+
+                    <div class="col-sm-3 form-floating">
+                        {{ form.dudlNum }}
+                        <label for="{{ form.dudlNum.id_for_label }}">Номер документа</label>
+                    </div>
+
+                    <div class="col-sm-1 form-floating">
+                        {{ form.dudlType }}
+                        <label for="{{ form.dudlType.id_for_label }}">Тип документа</label>
+                    </div>
+
+                    <div class="col-sm-3 form-floating">
+                        {{ form.snils }}
+                        <label for="{{ form.snils.id_for_label }}">Номер СНИЛС</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-2 mb-2 mx-3">
+                <div class="card-header">
+                    ФИО / Дата рождения
+                </div>
+                <div class="card-body row gx-1 gy-2 align-items-center">
+                    <div class="col-sm-3 form-floating">
+                        {{ form.surname }}
+                        <label for="{{ form.surname.id_for_label }}">Фамилия</label>
+                    </div>
+                    <div class="col-sm-3 form-floating">
+                        {{ form.firstname }}
+                        <label for="{{ form.firstname.id_for_label }}">Имя</label>
+                    </div>
+                    <div class="col-sm-3 form-floating">
+                        {{ form.patronymic }}
+                        <label for="{{ form.patronymic.id_for_label }}">Отчетсво</label>
+                    </div>
+                    <div class="col-sm-3 form-floating">
+                        {{ form.birthDay }}
+                        <label for="{{ form.birthDay.id_for_label }}">Дата рождения</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-2 mb-2 mx-3">
+                <div class="card-header">
+                    Дополнительные параметры
+                </div>
+                <div class="card-body row gx-1 gy-2 align-items-center">
+                    <div class="col-sm-3 form-floating">
+                        {{ form.show }}
+                        <label for="{{ form.show.id_for_label }}">Сущность поиска</label>
+                    </div>
+                    <div class="col-sm-3 form-floating">
+                        {{ form.dt }}
+                        <label for="{{ form.dt.id_for_label }}">Поиск на дату</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 row gx-1 gy-2 align-items-center">
+                <button type="submit" class="btn btn-primary btn-block">Отправить запрос</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
