@@ -52,6 +52,7 @@ class NsiMpiPolisType(models.Model):
     class Meta:
         verbose_name = "Тип полиса"
         verbose_name_plural = "МПИ Типы полисов"
+        ordering = ["id"]
 
     def __str__(self):
         return self.caption
@@ -67,6 +68,7 @@ class NsiDudlType(models.Model):
     class Meta:
         verbose_name = "Тип документа"
         verbose_name_plural = "НСИ Типы документов"
+        ordering = ["code"]
 
     def __str__(self):
         return self.caption
@@ -80,6 +82,7 @@ class MpiShow(models.Model):
     class Meta:
         verbose_name = "Элемент сущности"
         verbose_name_plural = "МПИ Список сущностей"
+        ordering = ["id"]
 
     def __str__(self):
         return self.caption
