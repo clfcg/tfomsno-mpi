@@ -6,8 +6,7 @@ from .models import NsiMpiPolisType, NsiDudlType
 class FormMpiGetPersonData(forms.Form):
     pcyType = forms.ModelChoiceField(
         label="Тип полиса",
-        empty_label="",
-        queryset=NsiMpiPolisType.objects.values_list("code", flat=True).all(),
+        queryset=NsiMpiPolisType.objects.all(),
         required=False,
         widget=forms.Select(attrs={
             "class": "form-select",
@@ -73,8 +72,7 @@ class FormMpiGetPersonData(forms.Form):
     )
     dudlType = forms.ModelChoiceField(
         label="Тип документа",
-        empty_label="",
-        queryset=NsiDudlType.objects.values_list("code", flat=True).all(),
+        queryset=NsiDudlType.objects.all(),
         required=False,
         widget=forms.Select(attrs={
             "class": "form-select",
@@ -145,4 +143,17 @@ class FormMpiGetPersonData(forms.Form):
             }
         )
     )
-        
+
+    def clean_pcyType(self):
+        if self.cleaned_data["pcyType"] is not None:
+            pcy_code = NsiMpiPolisType.objects.get(caption=self.cleaned_data["pcyType"]).code
+            return pcy_code
+        else:
+            return ""
+    
+    def clean_dudlType(self):
+        if self.cleaned_data["dudlType"] is not None:
+            dudl_code = NsiDudlType.objects.get(caption=self.cleaned_data["dudlType"]).code
+            return dudl_code
+        else:
+            return ""

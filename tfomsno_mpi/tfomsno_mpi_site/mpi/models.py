@@ -56,6 +56,9 @@ class NsiMpiPolisType(models.Model):
 
     def __str__(self):
         return self.caption
+    
+    def __unicode__(self):
+        return self.code
 
 
 class NsiDudlType(models.Model):
