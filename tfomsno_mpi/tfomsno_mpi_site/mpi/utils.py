@@ -1,45 +1,37 @@
 from pathlib import Path
 
+import requests
+from lxml import etree
+
 from django.template import Context, Template
+from django.conf import settings
 
 
-class SendPersonData(object):
-    mixin_data = {}
+class SOAPGetPersonData(object):
+    template_dir = settings.BASE_DIR / "mpi/templates/soap"
+    mixin_template_soap = ""
+    mixin_cleaned_data = {}
 
-    def get_mixin_data(self, mixin_dict: dict):
-        template = Template("""
-        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mpip="http://ffoms.ru/types/mpiPersonInfoSchema" xmlns:com="http://ffoms.ru/types/commonTypes">
-   <soapenv:Body>
-      <mpip:getPersonDataRequest>
-         <com:externalRequestId>1213313</com:externalRequestId>
-         <mpip:personDataSearchParams>
-            <mpip:personSearchInfo>
-               <mpip:pcy>
-                  <com:pcyType>{{ pcyType }}</com:pcyType>
-                  <com:enp>{{ enp }}</com:enp>
-                  <com:pcySer>{{ pcySer }}</com:pcySer>
-                  <com:pcyNum>{{ pcyNum }}</com:pcyNum>
-                  <com:tmpcertNum>{{ tmpcertNum }}</com:tmpcertNum>
-               </mpip:pcy>
-               <mpip:dudl>
-                  <com:dudlSer>{{ dudlSer }}</com:dudlSer>
-                  <com:dudlNum>{{ dudlNum }}</com:dudlNum>
-                  <com:dudlType>{{ dudlType }}</com:dudlType>
-               </mpip:dudl>
-               <mpip:snilsDr>
-                  <mpip:snils>{{ snils }}</mpip:snils>
-                  <mpip:birthDay>{{ birthDay }}</mpip:birthDay>
-               </mpip:snilsDr>
-            </mpip:personSearchInfo>
-            <mpip:surname>{{ surname }}</mpip:surname>
-            <mpip:firstName>{{ firstname }}</mpip:firstName>
-            <mpip:patronymic>{{ patronymic }}</mpip:patronymic>
-            <mpip:show>{{ show }}</mpip:show>
-            <mpip:dt>{{ dt }}</mpip:dt>
-         </mpip:personDataSearchParams>
-      </mpip:getPersonDataRequest>
-   </soapenv:Body>
-</soapenv:Envelope>
-        """)
-        context = Context(mixin_dict)
+    def mixin_get_data(self):
+        template_file = Path(self.template_dir, self.mixin_template_soap)
+        with open(template_file) as f:
+            template = Template(f.read().strip().replace("\n", ""))
+        context = Context(self.mixin_cleaned_data)
         return template.render(context)
+    
+    def mixin_send_request(self):
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uLWlkIjoiMWMxYjYwMGUtNmY5OC00NGJhLWI1OWUtODRjYmY4ZjhkZGY4In0._l4OLEQfVwEf_tfSU8ohXkbUe5ZIkg-5eqSHDxR6_jY"
+        url = "http://10.255.87.30/api/t-foms/integration/ws/wsdl/mpiPersonInfoServiceWs.wsdl"
+        headers = {
+            "Content-Type": "text/xml; charset=utf-8",
+            "X-Auth-Token": token,
+        }
+        body = str(self.mixin_get_data()).encode("utf-8")
+        print(body)
+        response = requests.post(url, data=body, headers=headers)
+        return response.text
+    
+    def mixin_parse_response(self):
+        root = etree.Element("body")
+        tags = [tag for tag in root]
+        return tags

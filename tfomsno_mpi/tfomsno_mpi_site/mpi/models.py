@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 
@@ -89,3 +90,4 @@ class MpiShow(models.Model):
 
     def __str__(self):
         return self.caption
+    

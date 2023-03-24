@@ -1,0 +1,38 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mpip="http://ffoms.ru/types/mpiPersonInfoSchema" xmlns:com="http://ffoms.ru/types/commonTypes">
+   <soapenv:Body>
+      <mpip:getPersonDataRequest>
+         <com:externalRequestId>qwerty-12445</com:externalRequestId>
+         <mpip:personDataSearchParams>
+            <mpip:personSearchInfo>
+               {% if pcyType != "" or enp != "" or pcySer != "" or pcyNum != "" or pcyNum != "" %}
+               <mpip:pcy>
+                  {% if pcyType != "" %}<com:pcyType>{{ pcyType }}</com:pcyType>{% endif %}
+                  {% if enp != "" %}<com:enp>{{ enp }}</com:enp>{% endif %}
+                  {% if pcySer != "" %}<com:pcySer>{{ pcySer }}</com:pcySer>{% endif %}
+                  {% if pcyNum != "" %}<com:pcyNum>{{ pcyNum }}</com:pcyNum>{% endif %}
+                  {% if pcyNum != "" %}<com:tmpcertNum>{{ tmpcertNum }}</com:tmpcertNum>{% endif %}
+               </mpip:pcy>
+               {% endif %}
+               {% if dudlSer != "" or dudlNum != "" or dudlType != "" %}
+               <mpip:dudl>
+                  {% if dudlSer != "" %}<com:dudlSer>{{ dudlSer }}</com:dudlSer>{% endif %}
+                  {% if dudlNum != "" %}<com:dudlNum>{{ dudlNum }}</com:dudlNum>{% endif %}
+                  {% if dudlType != "" %}<com:dudlType>{{ dudlType }}</com:dudlType>{% endif %}
+               </mpip:dudl>
+               {% endif %}
+               {% if snils != "" or birthDay != "" %}
+               <mpip:snilsDr>
+                  {% if snils != "" %}<mpip:snils>{{ snils }}</mpip:snils>{% endif %}
+                  {% if birthDay != "" %}<mpip:birthDay>{{ birthDay }}</mpip:birthDay>{% endif %}
+               </mpip:snilsDr>
+               {% endif %}
+            </mpip:personSearchInfo>
+            {% if surname != "" %}<mpip:surname>{{ surname }}</mpip:surname>{% endif %}
+            {% if firstname != "" %}<mpip:firstName>{{ firstname }}</mpip:firstName>{% endif %}
+            {% if patronymic != "" %}<mpip:patronymic>{{ patronymic }}</mpip:patronymic>{% endif %}
+            {% if show != "" %}<mpip:show>{{ show }}</mpip:show>{% endif %}
+            <mpip:dt>{{ dt }}</mpip:dt>
+         </mpip:personDataSearchParams>
+      </mpip:getPersonDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

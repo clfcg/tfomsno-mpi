@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django import forms
 
 from .models import NsiMpiPolisType, NsiDudlType
@@ -91,6 +93,7 @@ class FormMpiGetPersonData(forms.Form):
         )
     )
     birthDay = forms.DateField(
+        #input_formats="%d.%m.%Y",
         label="Дата рождения",
         required=False,
         widget=forms.DateInput(attrs={
@@ -157,3 +160,14 @@ class FormMpiGetPersonData(forms.Form):
             return dudl_code
         else:
             return ""
+        
+    def clean_birthDay(self):
+        correct_date = self.cleaned_data["birthDay"].strftime("%Y-%m-%d")
+        return correct_date
+    
+    def clean_dt(self):
+        if self.cleaned_data["dt"] is not None:
+            correct_date = self.cleaned_data["dt"].strftime("%Y-%m-%d")
+        else:
+            correct_date = datetime.now().strftime("%Y-%m-%d")
+        return correct_date
